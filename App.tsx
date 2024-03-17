@@ -7,10 +7,12 @@ import {
   View,
   useColorScheme,
 } from "react-native";
+import CompStyles from "./styles";
 import Buttons from "./components/Buttons";
 import { AntDesign } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 import * as FileSystem from "expo-file-system";
+import AddNewItem from "./components/AddNewItem";
 const IS_PERMISSION_GRANTED_FOR_FILESYSTEM = "isPermissionGrantedForFileSystem";
 const DIRECTORY_URI = "directoryURI";
 const FILE_PATH = "filePath";
@@ -19,7 +21,8 @@ export default function App() {
   const theme = useColorScheme();
   const [dirUri, setDirUri] = useState("");
   const [filePath, setFilePath] = useState("");
-  const themeTextStyle = theme === "light" ? styles.text : styles.darkText;
+  const themeTextStyle =
+    theme === "light" ? CompStyles.lightText : CompStyles.darkText;
   const themeContainer =
     theme === "light" ? styles.containerBg : styles.darkContainerBg;
   const [mode, setMode] = useState<"home" | "new" | "view">("home");
@@ -69,7 +72,7 @@ export default function App() {
   }, []);
   return (
     <View style={[styles.container, themeContainer]}>
-      <Text style={[themeTextStyle, styles.headingText]}>Pass Key!!</Text>
+      <Text style={[themeTextStyle, CompStyles.headingText]}>Pass Key!!</Text>
       <StatusBar style="auto" />
       <View style={[styles.mainContainer]}>
         {mode !== "home" && (
@@ -84,7 +87,7 @@ export default function App() {
         {mode === "home" && <Buttons onPressCallback={ChangeMode} />}
         {/* buttons container ends */}
         {/* Add new section starts */}
-        {mode === "new" && <Text style={[themeTextStyle]}>Add New</Text>}
+        {mode === "new" && <AddNewItem />}
         {/* Add new section ends */}
         {/* View List sections starts */}
         {mode === "view" && (
@@ -109,16 +112,6 @@ const styles = StyleSheet.create({
   },
   darkContainerBg: {
     backgroundColor: "#000",
-  },
-  headingText: {
-    fontSize: 20,
-    textAlign: "center",
-  },
-  text: {
-    color: "black",
-  },
-  darkText: {
-    color: "white",
   },
   mainContainer: {
     flex: 1,
